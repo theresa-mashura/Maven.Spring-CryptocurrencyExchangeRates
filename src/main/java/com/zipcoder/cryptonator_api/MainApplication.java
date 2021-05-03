@@ -2,22 +2,26 @@ package com.zipcoder.cryptonator_api;
 
 import com.zipcoder.cryptonator_api.domain.TickerEntity;
 import com.zipcoder.cryptonator_api.services.RestService;
+import com.zipcoder.cryptonator_api.services.TickerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
+@EnableScheduling
 public class MainApplication {
     public static void main(String[] args) {
         SpringApplication.run(MainApplication.class, args);
     }
 
-    @Autowired RestService rs;
-
+    @Autowired
+    private TickerService ts;
 
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
@@ -28,7 +32,7 @@ public class MainApplication {
     public CommandLineRunner run(RestTemplate restTemplate) {
         return args -> {
             //this.sampleFetch(restTemplate);
-            this.fetchTest();
+            this.display();
         };
     }
 
@@ -41,10 +45,10 @@ public class MainApplication {
 //        System.out.println(jsonObject.toString());
 //    }
 
-    public void fetchTest() {
-        TickerEntity ct = this.rs.getTicker("btc", "usd");
-        System.out.println(ct.toString());
-        System.out.println(ct.getTicker().toString());
+    @Scheduled(fixedDelay = 50000, initialDelay = 5000)
+    public void display() {
+        TickerEntity t = this.ts.add("btc", "usd");
+        System.out.println(t.toString());
     }
 
 }

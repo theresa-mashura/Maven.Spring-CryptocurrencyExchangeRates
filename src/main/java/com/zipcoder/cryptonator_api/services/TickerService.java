@@ -3,6 +3,8 @@ package com.zipcoder.cryptonator_api.services;
 import com.zipcoder.cryptonator_api.domain.TickerEntity;
 import com.zipcoder.cryptonator_api.repositories.TickerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 //{"ticker":
@@ -15,7 +17,10 @@ public class TickerService {
     @Autowired
     private TickerRepository repository;
 
-    public TickerEntity add(TickerEntity tickerEntity) {
-        return this.repository.save(tickerEntity);
+    @Autowired
+    private RestService restService;
+
+    public TickerEntity add(String base, String target) {
+        return this.repository.save(restService.getTicker(base, target));
     }
 }

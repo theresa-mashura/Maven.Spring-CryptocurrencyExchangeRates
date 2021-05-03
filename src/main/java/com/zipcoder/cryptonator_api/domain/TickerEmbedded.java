@@ -9,7 +9,6 @@ import javax.persistence.Embeddable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Embeddable
-@ToString
 public class TickerEmbedded {
 
     private String base;
@@ -17,4 +16,13 @@ public class TickerEmbedded {
     private Double price;
     private Double volume;
     private Double change;
+
+    @Override
+    public String toString() {
+        return "\n---Base: " + base + '\n' +
+                "---Target: " + target + '\n' +
+                "---Price: " + price + '\n' +
+                "---Volume: " + volume + '\n' +
+                "---Change: " + change;
+    }
 }

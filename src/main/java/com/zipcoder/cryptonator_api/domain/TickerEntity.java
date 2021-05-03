@@ -11,7 +11,6 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Entity
 @JsonIgnoreProperties(ignoreUnknown = true) // indicates that any properties not bound in this type should be ignored
 public class TickerEntity implements Serializable {
@@ -29,6 +28,18 @@ public class TickerEntity implements Serializable {
     public Date getTime() {
         return new Date( (long) this.timestamp * 1000 );
         // Java expected milliseconds, so multiply by 1000
+    }
+
+    @Override
+    public String toString() {
+        return "---------------------------------------\n" +
+                "RESPONSE" + "\n" +
+                "Id: " + id + "\n" +
+                "Ticker: " + ticker + "\n" +
+                "Timestamp: " + this.getTime() + "\n" +
+                "Success: " + success + "\n" +
+                "Error: " + error + '\n' +
+                "---------------------------------------\n";
     }
 }
 
